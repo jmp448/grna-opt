@@ -23,7 +23,7 @@ then
     strand=$(echo "$p" | cut -f 4)
     if [ "$strand" == "-" ];
     then
-      seq2=$(echo "$seq" | tr ACGTacgt TGCAtgca | rev)
+      seq2=$(echo "$seq" | tr ACGTacgt TGCATGCA | rev)
       seq="$seq2"
     fi
     echo "$seq" >> ../data/hct116.seqs.test.txt
