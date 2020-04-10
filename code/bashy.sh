@@ -54,7 +54,7 @@ then
       seq="$seq2"
     fi
     echo "$seq" >> ../data/hct116.seqs.30mers.txt
-  done < ../data/hct116.allcols.test.txt
+  done < ../data/hct116.allcols.txt
   grep -i "\S" ../data/hct116.seqs.30mers.txt > tmp.txt
   mv tmp.txt ../data/hct116.seqs.30mers.txt
 fi
