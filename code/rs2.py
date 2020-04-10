@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
 try:
     import azimuth.model_comparison
@@ -31,6 +32,7 @@ def predict_efficacy(s):
     Output: np array of Rule Set 2 scores
     """
     predictions = azimuth.model_comparison.predict(s)
+    np.savetxt("../data/hct116.rs2preds.txt", predictions, fmt='%1.10f', newline=os.linesep)
     return predictions
 
 
