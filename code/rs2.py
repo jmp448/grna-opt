@@ -34,7 +34,7 @@ def predict_efficacy(s):
 
 
 def compare_preds(scores, preds):
-
+    pass
 
 def main():
     seqs, scores = load_data()
