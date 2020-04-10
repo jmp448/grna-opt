@@ -1,3 +1,5 @@
+import numpy as np
+
 try:
     import azimuth.model_comparison
 except:
