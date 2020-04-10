@@ -1,0 +1,6 @@
+[submodule "DeepCRISPR"]
+	path = DeepCRISPR
+	url = https://github.com/bm2-lab/DeepCRISPR.git
+[submodule "Azimuth"]
+	path = Azimuth
+	url = https://github.com/MicrosoftResearch/Azimuth.git
