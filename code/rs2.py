@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 try:
     import azimuth.model_comparison
@@ -34,12 +35,16 @@ def predict_efficacy(s):
 
 
 def compare_preds(scores, preds):
-    pass
+    plt.scatter(scores, preds)
+    plt.xlabel("True Efficacy")
+    plt.ylabel("Rule Set 2 Predictions")
+    plt.savefig("../figs/rs2scatter.png")
+
 
 def main():
     seqs, scores = load_data()
     preds = predict_efficacy(seqs)
-    print preds
+    compare_preds(scores, preds)
 
 
 if __name__=="__main__":
