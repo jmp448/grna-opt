@@ -32,6 +32,7 @@ fi
 
 # Get surrounding 30mer from 23mer location info
 if true;
+> ../data/hct116.seqs.30mers.txt
 then
   while read p; do
     chr=$(echo "$p" | cut -f 1)
@@ -45,12 +46,12 @@ then
       start=$(echo "$p" | cut -f 2 | awk '{($1=$1-4); print}')
       end=$(echo "$p" | cut -f 3 | awk '{($1=$1+4); print}')
     fi
-    wget -O- 'api.genome.ucsc.edu/getData/sequence?genome=hg19;chrom='"$chr"';start='"$start"';end='"$end" > ../data/tmp.txt
-    seq=$(cat ../data/tmp.txt | awk -F\" '{print $22}')
+    wget -O- 'api.genome.ucsc.edu/getData/sequence?genome=hg19;chrom='"$chr"';start='"$start"';end='"$end" > tmp.txt
+    seq=$(cat tmp.txt | awk -F\" '{print $22}')
     # if it's on the reverse strand, get the reverse complement
     if [ "$strand" == "-" ];
     then
-      seq2=$(echo "$seq" | tr ACGTacgt TGCAtgca | rev)
+      seq2=$(echo "$seq" | tr ACGTacgt TGCATGCA | rev)
       seq="$seq2"
     fi
     echo "$seq" >> ../data/hct116.seqs.30mers.txt
