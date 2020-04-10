@@ -17,9 +17,10 @@ def test():
 
 
 def load_data():
-    fname = "../data/dc_ontarget_hct116.txt"
-    sequences = np.loadtxt(fname, dtype='str', skiprows=1, usecols=4)
-    scores = np.loadtxt(fname, skiprows=1, usecols=5)
+    seqfile = "../data/hct116.seqs.30mers.txt"
+    sequences = np.loadtxt(seqfile, dtype='str')
+    scorefile = "../data/hct116.allcols.txt"
+    scores = np.loadtxt(fname, usecols=5)
     return sequences, scores
 
 
@@ -28,7 +29,7 @@ def predict_efficacy(s):
     Input: np array of strings, gRNA candidates
     Output: np array of Rule Set 2 scores
     """
-    predictions = azimuth.model_comparison.predict(s, pam_audit=False)
+    predictions = azimuth.model_comparison.predict(s)
     return predictions
 
 
@@ -38,6 +39,7 @@ def compare_preds(scores, preds):
 def main():
     seqs, scores = load_data()
     preds = predict_efficacy(seqs)
+    print preds
 
 
 if __name__=="__main__":
