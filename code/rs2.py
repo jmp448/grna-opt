@@ -20,7 +20,7 @@ def load_data():
     seqfile = "../data/hct116.seqs.30mers.txt"
     sequences = np.loadtxt(seqfile, dtype='str')
     scorefile = "../data/hct116.allcols.txt"
-    scores = np.loadtxt(fname, usecols=5)
+    scores = np.loadtxt(scorefile, usecols=5)
     return sequences, scores
 
 
