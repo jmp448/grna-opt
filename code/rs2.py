@@ -3,6 +3,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+from scipy.stats import linregress
 
 try:
     import azimuth.model_comparison
@@ -45,10 +46,16 @@ def compare_preds(scores, preds):
     plt.savefig("../figs/rs2scatter.png")
 
 
+def test_correlation(scores, preds):
+    _, _, r2, p, _ = linregress(scores, preds)
+    print r2, p
+
+
 def main():
-    seqs, scores = load_data()
-    preds = predict_efficacy(seqs)
-    compare_preds(scores, preds)
+    # seqs, scores = load_data()
+    # preds = predict_efficacy(seqs)
+    # compare_preds(scores, preds)
+    test_correlation(scores, preds)
 
 
 if __name__=="__main__":
