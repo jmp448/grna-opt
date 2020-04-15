@@ -1,6 +1,12 @@
 import tensorflow as tf
-from deepcrispr import DCModelOntar
 import numpy as np
+
+try:
+    from deepcrispr_src import DCModelOntar
+except:
+    import sys
+    sys.path.insert(1, "../DeepCRISPR/deepcrispr/")
+    from deepcrispr_src import DCModelOntar
 
 
 def load_data():
