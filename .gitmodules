@@ -4,3 +4,6 @@
 [submodule "Azimuth"]
 	path = Azimuth
 	url = https://github.com/MicrosoftResearch/Azimuth.git
+[submodule "DeepHF"]
+	path = DeepHF
+	url = https://github.com/izhangcd/DeepHF.git
