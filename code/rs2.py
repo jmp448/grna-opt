@@ -3,7 +3,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-from scipy.stats import linregress
+from scipy.stats import linregress, spearmanr, pearsonr
+from sklearn.metrics import roc_curve, auc, roc_auc_score
 
 try:
     import azimuth.model_comparison
@@ -51,8 +52,10 @@ def test_correlation():
     scores = np.loadtxt(scorefile, usecols=5)
     predfile = "../data/hct116.rs2preds.txt"
     preds = np.loadtxt(predfile)
-    _, _, r2, p, _ = linregress(scores, preds)
-    print r2, p
+    pears, p = pearsonr(scores, preds)
+    print("Pearson correlation: %.3f, p value %.2f" % (pears, p))
+    spear, p = spearmanr(scores, preds)
+    print("Spearman rank correlation: %.3f, p value %.2f" % (spear, p))
 
 
 def main():
