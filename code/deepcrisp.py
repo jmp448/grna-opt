@@ -73,6 +73,7 @@ def test_correlation():
 
 def main():
     scores, seqs, dcmodel = load_data()
+    seqs = onehotify(seqs)
     preds = dc_pred(dcmodel, seqs)
     compare_preds(scores, preds)
 
