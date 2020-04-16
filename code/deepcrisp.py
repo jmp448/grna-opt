@@ -2,6 +2,11 @@ import tensorflow as tf
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
 import os
+from scipy.stats import linregress, spearmanr, pearsonr
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
 
 try:
     from deepcrispr_src import DCModelOntar
