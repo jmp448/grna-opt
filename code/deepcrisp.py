@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
+import os
 
 try:
     from deepcrispr_src import DCModelOntar
