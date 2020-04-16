@@ -35,7 +35,6 @@ def load_data():
 
     seqfile = "../data/hct116.allcols.txt"
     sequences = np.loadtxt(seqfile, usecols=4, dtype='str')
-    sequences = np.reshape(sequences, [len(sequences), 4, 1, 23])
 
     sess = tf.InteractiveSession()
     on_target_model_dir = '../DeepCRISPR/trained_models/ontar_cnn_reg_seq.tar.gz'
