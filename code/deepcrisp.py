@@ -1,6 +1,5 @@
 import tensorflow as tf
 import numpy as np
-from sklearn.preprocessing import OneHotEncoder
 import os
 from scipy.stats import linregress, spearmanr, pearsonr
 import matplotlib
@@ -63,25 +62,13 @@ def compare_preds(scores, preds):
     plt.xlabel("True Efficacy")
     plt.ylabel("Rule Set 2 Predictions")
     plt.savefig("../figs/dcscatter.png")
-
-
-def test_correlation():
-    scorefile = "../data/hct116.allcols.txt"
-    scores = np.loadtxt(scorefile, usecols=5)
-    predfile = "../data/hct116.dcpreds.txt"
-    preds = np.loadtxt(predfile)
-    pears, p = pearsonr(scores, preds)
-    print("Pearson correlation: %.3f, p value %.2f" % (pears, p))
-    spear, p = spearmanr(scores, preds)
-    print("Spearman rank correlation: %.3f, p value %.2f" % (spear, p))
-
+    
 
 def main():
-    # scores, seqs, dcmodel = load_data()
-    # seqs = onehotify(seqs)
-    # preds = dc_pred(dcmodel, seqs)
-    # compare_preds(scores, preds)
-    test_correlation()
+    scores, seqs, dcmodel = load_data()
+    seqs = onehotify(seqs)
+    preds = dc_pred(dcmodel, seqs)
+    compare_preds(scores, preds)
 
 if __name__=="__main__":
     main()
