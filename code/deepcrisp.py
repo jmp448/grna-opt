@@ -17,8 +17,8 @@ def onehotify(seq):
     hotties = np.zeros(hotshape)
     hotties = np.reshape(hotties, [-1, 4, 1, 23])
     base2hottie = {"A": [1, 0, 0, 0],
-    "G": [0, 1, 0, 0],
-    "C": [0, 0, 1, 0],
+    "C": [0, 1, 0, 0],
+    "G": [0, 0, 1, 0],
     "T": [0, 0, 0, 1]}
     for guide in range(len(seq)):
         for base in range(len(seq[guide])):
@@ -37,7 +37,7 @@ def load_data():
     sequences = np.loadtxt(seqfile, usecols=4, dtype='str')
 
     sess = tf.InteractiveSession()
-    on_target_model_dir = '../DeepCRISPR/trained_models/ontar_cnn_reg_seq.tar.gz'
+    on_target_model_dir = '../DeepCRISPR/trained_models/ontar_cnn_reg_seq'
     # using regression model, otherwise classification model
     is_reg = True
     # using sequences feature only, otherwise sequences feature + selected epigenetic features
