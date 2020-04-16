@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+from sklearn.preprocessing import OneHotEncoder
 
 try:
     from deepcrispr_src import DCModelOntar
@@ -7,6 +8,22 @@ except:
     import sys
     sys.path.insert(1, "../DeepCRISPR/deepcrispr/")
     from deepcrispr_src import DCModelOntar
+
+
+def onehotify(seq):
+    seq = np.array([[base for base in guide] for guide in seq])
+    hotshape = seq.shape
+    hotshape = hotshape + (4,)
+    hotties = np.zeros(hotshape)
+    hotties = np.reshape(hotties, [-1, 4, 1, 23])
+    base2hottie = {"A": [1, 0, 0, 0],
+    "G": [0, 1, 0, 0],
+    "C": [0, 0, 1, 0],
+    "T": [0, 0, 0, 1]}
+    for guide in range(len(seq)):
+        for base in range(len(seq[guide])):
+            hotties[guide, :, 0, base] = base2hottie[seq[guide, base]]
+    return(hotties)
 
 
 def load_data():
