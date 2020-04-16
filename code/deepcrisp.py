@@ -68,7 +68,7 @@ def compare_preds(scores, preds):
 def test_correlation():
     scorefile = "../data/hct116.allcols.txt"
     scores = np.loadtxt(scorefile, usecols=5)
-    predfile = "../data/hct116.rs2preds.txt"
+    predfile = "../data/hct116.dcpreds.txt"
     preds = np.loadtxt(predfile)
     pears, p = pearsonr(scores, preds)
     print("Pearson correlation: %.3f, p value %.2f" % (pears, p))
@@ -77,10 +77,11 @@ def test_correlation():
 
 
 def main():
-    scores, seqs, dcmodel = load_data()
-    seqs = onehotify(seqs)
-    preds = dc_pred(dcmodel, seqs)
-    compare_preds(scores, preds)
+    # scores, seqs, dcmodel = load_data()
+    # seqs = onehotify(seqs)
+    # preds = dc_pred(dcmodel, seqs)
+    # compare_preds(scores, preds)
+    test_correlation()
 
 if __name__=="__main__":
     main()
