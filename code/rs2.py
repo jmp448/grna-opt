@@ -1,6 +1,6 @@
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
+# import matplotlib
+# matplotlib.use('Agg')
+# import matplotlib.pyplot as plt
 import numpy as np
 import os
 from scipy.stats import linregress, spearmanr, pearsonr
@@ -40,17 +40,17 @@ def predict_efficacy(s):
     return predictions
 
 
-def compare_preds(scores, preds):
-    plt.scatter(scores, preds)
-    plt.xlabel("True Efficacy")
-    plt.ylabel("Rule Set 2 Predictions")
-    plt.savefig("../figs/rs2scatter.png")
+# def compare_preds(scores, preds):
+#     plt.scatter(scores, preds)
+#     plt.xlabel("True Efficacy")
+#     plt.ylabel("Rule Set 2 Predictions")
+#     plt.savefig("../figs/rs2scatter.png")
 
 
 def main():
     seqs, scores = load_data()
     preds = predict_efficacy(seqs)
-    compare_preds(scores, preds)
+    # compare_preds(scores, preds)
 
 
 if __name__=="__main__":
