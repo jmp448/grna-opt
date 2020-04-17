@@ -32,13 +32,13 @@ def onehotify(seq):
 
 
 def load_data():
-    scorefile = "../data/hct116.allcols.txt"
+    scorefile = "../data/hct116.allcols.sorted.txt"
     scores = np.loadtxt(scorefile, usecols=5)
 
     seq_feature_only = True
     channels = 4 if seq_feature_only else 8
 
-    seqfile = "../data/hct116.allcols.txt"
+    seqfile = "../data/hct116.allcols.sorted.txt"
     sequences = np.loadtxt(seqfile, usecols=4, dtype='str')
 
     sess = tf.InteractiveSession()
@@ -53,7 +53,7 @@ def load_data():
 
 def dc_pred(dcmodel, seqs):
     preds = dcmodel.ontar_predict(seqs)
-    np.savetxt("../data/hct116.dcpreds.txt", preds, fmt='%1.10f', newline=os.linesep)
+    np.savetxt("../data/hct116.dcpreds.sorted.txt", preds, fmt='%1.10f', newline=os.linesep)
     return(preds)
 
 
@@ -62,7 +62,7 @@ def compare_preds(scores, preds):
     plt.xlabel("True Efficacy")
     plt.ylabel("Rule Set 2 Predictions")
     plt.savefig("../figs/dcscatter.png")
-    
+
 
 def main():
     scores, seqs, dcmodel = load_data()
