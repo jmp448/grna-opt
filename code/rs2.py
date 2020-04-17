@@ -23,9 +23,9 @@ def test():
 
 
 def load_data():
-    seqfile = "../data/hct116.seqs.30mers.txt"
+    seqfile = "../data/hct116.seqs.30mers.sorted.txt"
     sequences = np.loadtxt(seqfile, dtype='str')
-    scorefile = "../data/hct116.allcols.txt"
+    scorefile = "../data/hct116.allcols.sorted.txt"
     scores = np.loadtxt(scorefile, usecols=5)
     return sequences, scores
 
@@ -36,7 +36,7 @@ def predict_efficacy(s):
     Output: np array of Rule Set 2 scores
     """
     predictions = azimuth.model_comparison.predict(s)
-    np.savetxt("../data/hct116.rs2preds.txt", predictions, fmt='%1.10f', newline=os.linesep)
+    np.savetxt("../data/hct116.rs2preds.sorted.txt", predictions, fmt='%1.10f', newline=os.linesep)
     return predictions
 
 
@@ -47,22 +47,10 @@ def compare_preds(scores, preds):
     plt.savefig("../figs/rs2scatter.png")
 
 
-def test_correlation():
-    scorefile = "../data/hct116.allcols.txt"
-    scores = np.loadtxt(scorefile, usecols=5)
-    predfile = "../data/hct116.rs2preds.txt"
-    preds = np.loadtxt(predfile)
-    pears, p = pearsonr(scores, preds)
-    print("Pearson correlation: %.3f, p value %.2f" % (pears, p))
-    spear, p = spearmanr(scores, preds)
-    print("Spearman rank correlation: %.3f, p value %.2f" % (spear, p))
-
-
 def main():
-    # seqs, scores = load_data()
-    # preds = predict_efficacy(seqs)
-    # compare_preds(scores, preds)
-    test_correlation()
+    seqs, scores = load_data()
+    preds = predict_efficacy(seqs)
+    compare_preds(scores, preds)
 
 
 if __name__=="__main__":
