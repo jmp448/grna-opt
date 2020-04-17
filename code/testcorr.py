@@ -9,13 +9,32 @@ def test_correlation(scores, preds):
 
 
 def main():
-    # scorefile = "../data/hct116.allcols.txt"
-    # scores = np.loadtxt(scorefile, usecols=5)
-    dcpredfile = "../data/hct116.dcpreds.txt"
+    scorefile = "../data/hct116.allcols.sorted.txt"
+    scores = np.loadtxt(scorefile, usecols=5)
+    dcpredfile = "../data/hct116.dcpreds.sorted.txt"
     dcpreds = np.loadtxt(dcpredfile)
-    rs2predfile = "../data/hct116.rs2preds.txt"
+    rs2predfile = "../data/hct116.rs2preds.sorted.txt"
     rs2preds = np.loadtxt(rs2predfile)
+    hfpredfile = "../data/hct116.hfpreds.sorted.txt"
+    hfpreds = np.loadtxt(hfpredfile)
+
+    print("Exp vs HF")
+    test_correlation(scores, hfpreds)
+
+    print("Exp vs DC")
+    test_correlation(scores, dcpreds)
+
+    print("Exp vs RS2")
+    test_correlation(scores, rs2preds)
+
+    print("HF vs DC")
+    test_correlation(hfpreds, dcpreds)
+
+    print("DC vs RS2")
     test_correlation(dcpreds, rs2preds)
+
+    print("HF vs RS2")
+    test_correlation(hfpreds, rs2preds)
 
 
 if __name__=="__main__":
