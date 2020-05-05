@@ -67,9 +67,9 @@ def build_train_model(X, y, learn_options, train=None, test=None):
 	print "boutta train!"
         clf.fit(X, y)
     if test is not None:
-        y_pred = clf.predict(X[test])[:, None]
+        y_pred = clf.predict(X[test])
     else:
-        y_pred = clf.predict(y)
+        y_pred = clf.predict(X)
     return clf, y_pred
 
 
