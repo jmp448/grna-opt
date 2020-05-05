@@ -52,17 +52,19 @@ def get_features(data):
 
 
 def build_train_model(X, y, learn_options, train=None, test=None):
-	X, featdims, totdims, feature_names = azimuth.util.concatenate_feature_sets(X)
+    X, featdims, totdims, feature_names = azimuth.util.concatenate_feature_sets(X)
     clf = en.GradientBoostingRegressor(loss='ls', learning_rate=0.1,
-                                       n_estimators=100,
+				       n_estimators=100,
                                        alpha=0.5,
                                        subsample=1.0, min_samples_split=2, min_samples_leaf=1,
                                        max_depth=3,
                                        init=None,  max_features=None,
                                        verbose=0, max_leaf_nodes=None, warm_start=False, random_state=learn_options["random_seed"])
     if train is not None:
+	print "boutta train!"
         clf.fit(X[train], y[train].flatten())
     else:
+	print "boutta train!"
         clf.fit(X, y)
     if test is not None:
         y_pred = clf.predict(X[test])[:, None]
