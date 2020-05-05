@@ -22,7 +22,6 @@ import azimuth.predict as pred
 def load_data(data_filename, label_filename):
     X = pd.read_csv(data_filename, names=["30mer"], header=0)
     y = pd.read_csv(label_filename)
-
     return X, y
 
 
@@ -49,11 +48,11 @@ def get_features(data):
 	"normalize_features": False
     }
     feature_sets = feat.featurize_data(data, learn_options, Y=None, gene_position=None, pam_audit=True, length_audit=True, quiet=True)
-
     return feature_sets, learn_options
 
 
 def build_train_model(X, y, learn_options, train=None, test=None):
+	X, featdims, totdims, feature_names = azimuth.util.concatenate_feature_sets(X)
     clf = en.GradientBoostingRegressor(loss='ls', learning_rate=0.1,
                                        n_estimators=100,
                                        alpha=0.5,
@@ -65,18 +64,15 @@ def build_train_model(X, y, learn_options, train=None, test=None):
         clf.fit(X[train], y[train].flatten())
     else:
         clf.fit(X, y)
-
     if test is not None:
         y_pred = clf.predict(X[test])[:, None]
     else:
         y_pred = clf.predict(y)
-
     return clf, y_pred
 
 
 def save_model(model, learn_options, filename):
     model_save = model.values()[0][3][0]
-
     with open(filename, 'wb') as f:
         pickle.dump((model_save, learn_options), f, -1)
 
