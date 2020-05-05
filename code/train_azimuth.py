@@ -1,21 +1,26 @@
-import azimuth.predict as pred
 import copy
 import os
 import numpy as np
 import pandas as pd
-import azimuth.util
 import shutil
 import pickle
-import pylab as plt
 import pandas
+try:
+    import azimuth.model_comparison
+except:
+    import sys
+    sys.path.insert(1, "../Azimuth/")
+    import azimuth.model_comparison
+import azimuth.util
 import azimuth.local_multiprocessing
 import azimuth.load_data
 import azimuth.features.featurization as feat
 import sklearn.ensemble as en
+import azimuth.predict as pred
 
 
 def load_data(data_filename, label_filename):
-    X = pd.read_csv(data_filename, names="30mers")
+    X = pd.read_csv(data_filename, names=["30mer"], header=0)
     y = pd.read_csv(label_filename)
 
     return X, y
@@ -30,20 +35,25 @@ def get_features(data):
         "include_gene_effect": False,
         "include_know_pairs": False,
         "include_NGGX_interaction": True,
+	"include_pi_nuc_feat": True,
         "include_Tm": False,
         "include_sgRNAscore": False,
         "include_drug": False,
         "include_strand": False,
         "include_gene_feature": False,
         "include_gene_guide_feature": 0,
-        "random_seed"=7
+	"include_known_pairs": False,
+        "random_seed": 7,
+	"num_proc": 1,
+	"include_microhomology": False,
+	"normalize_features": False
     }
-    feature_sets = featurize_data(data, learn_options, Y=None, gene_position, pam_audit=True, length_audit=True, quiet=True)
+    feature_sets = feat.featurize_data(data, learn_options, Y=None, gene_position=None, pam_audit=True, length_audit=True, quiet=True)
 
     return feature_sets, learn_options
 
 
-def build_train_model(X, y, train=None, test=None):
+def build_train_model(X, y, learn_options, train=None, test=None):
     clf = en.GradientBoostingRegressor(loss='ls', learning_rate=0.1,
                                        n_estimators=100,
                                        alpha=0.5,
@@ -74,7 +84,7 @@ def save_model(model, learn_options, filename):
 def main():
     X, y = load_data("../data/hct116.seqs.30mers.sorted.txt", "../data/efficacy.sorted.txt")
     X, learn_options = get_features(X)
-    model, preds = build_train_model(X, y)
+    model, preds = build_train_model(X, y, learn_options)
     save_model(model, learn_options, filename="../data/dctrained.seqonly.pickle")
 
 

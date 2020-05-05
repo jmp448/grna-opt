@@ -32,14 +32,18 @@ def onehotify(seq):
 
 
 def load_data():
-    scorefile = "../data/hct116.allcols.sorted.txt"
-    scores = np.loadtxt(scorefile, usecols=5)
+    # scorefile = "../data/hct116.allcols.sorted.txt"
+    scorefile = "../data/hct116.deepHFdata.23mers_efficacy.txt"
+    # scores = np.loadtxt(scorefile, usecols=5)
+    scores = np.loadtxt(scorefile, usecols=1)
 
     seq_feature_only = True
     channels = 4 if seq_feature_only else 8
 
-    seqfile = "../data/hct116.allcols.sorted.txt"
-    sequences = np.loadtxt(seqfile, usecols=4, dtype='str')
+    # seqfile = "../data/hct116.allcols.sorted.txt"
+    # sequences = np.loadtxt(seqfile, usecols=4, dtype='str')
+    seqfile = "../data/hct116.deepHFdata.23mers_efficacy.txt"
+    sequences = np.loadtxt(seqfile, usecols=0, dtype='str')
 
     sess = tf.InteractiveSession()
     on_target_model_dir = '../DeepCRISPR/trained_models/ontar_cnn_reg_seq'
@@ -53,7 +57,8 @@ def load_data():
 
 def dc_pred(dcmodel, seqs):
     preds = dcmodel.ontar_predict(seqs)
-    np.savetxt("../data/hct116.dcpreds.sorted.txt", preds, fmt='%1.10f', newline=os.linesep)
+    # np.savetxt("../data/hct116.dcpreds.sorted.txt", preds, fmt='%1.10f', newline=os.linesep)
+    np.savetxt("../data/hct116.deepHFdata.dcscores.txt", preds, fmt='%1.10f', newline=os.linesep)
     return(preds)
 
 
@@ -68,7 +73,6 @@ def main():
     scores, seqs, dcmodel = load_data()
     seqs = onehotify(seqs)
     preds = dc_pred(dcmodel, seqs)
-    compare_preds(scores, preds)
 
 if __name__=="__main__":
     main()

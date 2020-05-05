@@ -9,14 +9,14 @@ def test_correlation(scores, preds):
 
 
 def main():
-    scorefile = "../data/hct116.allcols.sorted.txt"
-    scores = np.loadtxt(scorefile, usecols=5)
-    dcpredfile = "../data/hct116.dcpreds.sorted.txt"
-    dcpreds = np.loadtxt(dcpredfile)
-    rs2predfile = "../data/hct116.rs2preds.sorted.txt"
-    rs2preds = np.loadtxt(rs2predfile)
-    hfpredfile = "../data/hct116.hfpreds.sorted.txt"
-    hfpreds = np.loadtxt(hfpredfile)
+    scorefile = "../data/hct116.deepHFdata.allscores.txt"
+    scores = np.loadtxt(scorefile, usecols=1)
+    # dcpredfile = "../data/hct116.dcpreds.sorted.txt"
+    dcpreds = np.loadtxt(scorefile, usecols=4)
+    # rs2predfile = "../data/hct116.rs2preds.sorted.txt"
+    rs2preds = np.loadtxt(scorefile, usecols=2)
+    # hfpredfile = "../data/hct116.hfpreds.sorted.txt"
+    hfpreds = np.loadtxt(scorefile, usecols=3)
 
     print("Exp vs HF")
     test_correlation(scores, hfpreds)

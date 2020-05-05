@@ -16,3 +16,6 @@
   - Four tabs, one for each cell line examined
     - hct116, hek293t, hela, hl60 (in that order)
   - Efficacy scores integrated results from several experiments (see _Methods_ section of paper)
+
+- efficacy.sorted.txt
+  - sorted efficacy scores as assigned by DeepCRISPR
