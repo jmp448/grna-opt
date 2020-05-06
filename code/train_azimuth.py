@@ -35,7 +35,7 @@ def get_features(data):
         "include_know_pairs": False,
         "include_NGGX_interaction": True,
 	"include_pi_nuc_feat": True,
-        "include_Tm": False,
+        "include_Tm": True,
         "include_sgRNAscore": False,
         "include_drug": False,
         "include_strand": False,
