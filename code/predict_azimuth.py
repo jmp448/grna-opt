@@ -1,5 +1,4 @@
 import copy
-import os
 import numpy as np
 import pandas as pd
 import shutil
@@ -20,19 +19,13 @@ imp.load_source("featindel", "../Azimuth_indel/azimuth/features/featurization.py
 import featindel
 
 
-def get_data(dtype):
+def get_data(dtype, fname):
     if dtype == "indel":
-	fname = "../data/indel/dataset.txt"
 	X = pd.read_csv(fname, sep="\t", usecols=[4], names=["23mer"], header=0)
-	y = pd.read_csv(fname, sep="\t", usecols=[6], names=["score"], header=0)
-	model_name = "../models/azimuth.indel.all.pickle"
-	return X, y, model_name
+	return X
     elif dtype == "knockout":
-	fname = "../data/knockout/dataset.txt"
-	X = pd.read_csv(fname, sep="\t", usecols=[3,5], names=["Percent Peptide", "24mer"], header=0)
-	y = pd.read_csv(fname, sep="\t", usecols=[4], names=["score"], header=0)
-	model_name = "../models/azimuth.ko.all.pickle"
-	return X, y, model_name
+	X = pd.read_csv(fname, sep="\t", usecols=[0,1], names=["24mer", "Percent Peptide"], header=0)
+	return X
 
 
 def get_features(trainmode, data):
@@ -87,37 +80,23 @@ def get_features(trainmode, data):
     return feature_sets, learn_options
 
 
-def build_train_model(X, y, learn_options, train=None, test=None):
-    X, featdims, totdims, feature_names = azimuth.util.concatenate_feature_sets(X)
-    clf = en.GradientBoostingRegressor(loss='ls', learning_rate=0.1,
-				       n_estimators=100,
-                                       alpha=0.5,
-                                       subsample=1.0, min_samples_split=2, min_samples_leaf=1,
-                                       max_depth=3,
-                                       init=None,  max_features=None,
-                                       verbose=0, max_leaf_nodes=None, warm_start=False, random_state=learn_options["random_seed"])
-    if train is not None:
-        clf.fit(X[train], y[train].flatten())
-    else:
-        clf.fit(X, y)
-    if test is not None:
-        y_pred = clf.predict(X[test])
-    else:
-        y_pred = clf.predict(X)
-    return clf, y_pred, feature_names
-
-
-def save_model(model, learn_options, featnames, filename):
-    with open(filename, 'wb') as f:
-        pickle.dump((model, learn_options, featnames), f, -1)
+def load_model(modfile):
+    with open(modfile, 'rb') as f:
+        model, learn_options, featnames = pickle.load(f)
+    return model, learn_options, featnames
 
 
 def main():
-    trainmode = sys.argv[1]
-    X, y, modname = get_data(trainmode)
-    X, learn_options = get_features(trainmode, X)
-    model, preds, feat_names = build_train_model(X, y, learn_options)
-    save_model(model, learn_options, feat_names, filename=modname)
+    modname = sys.argv[1]
+    datafile = sys.argv[2]
+    dtype = sys.argv[3]
+    outfile = sys.argv[4]
+    X = get_data(dtype, datafile)
+    mod, _, _ = load_model(modname)
+    X, learn_options = get_features(dtype, X)
+    X, featdims, totdims, feature_names = azimuth.util.concatenate_feature_sets(X)
+    preds = mod.predict(X)
+    np.savetxt(outfile, preds)
 
 
 if __name__ == '__main__':
